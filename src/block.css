@@ -1,0 +1,57 @@
+.block-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.block-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.block-message {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.blocked-domain {
+  display: inline-block;
+  background-color: #f8f9fa;
+  padding: 4px 12px;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  font-family: monospace;
+  font-size: 16px;
+  color: #dc3545;
+  margin: 0 4px;
+  font-weight: 500;
+}
+
+.unblock-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  margin-top: 20px;
+  transition: background-color 0.2s ease;
+}
+
+.unblock-button:hover {
+  background-color: #45a049;
+}
+
+.unblock-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+} 
