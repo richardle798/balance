@@ -98,7 +98,7 @@ const Popup: React.FC = () => {
 
   return (
     <div className="popup-container">
-      <h1>Focus Extension</h1>
+      <h1>Balance</h1>
       <AddDomain
         onAddDomain={handleAddDomain}
       />

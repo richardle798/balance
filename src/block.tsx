@@ -61,7 +61,7 @@ const BlockPage: React.FC = () => {
     <div className="block-container">
       <h1 className="block-title">Site Blocked</h1>
       <p className="block-message">
-        <span className="blocked-domain">{currentDomain}</span> has been blocked to help you stay focused.
+        <span className="blocked-domain">{currentDomain}</span> has been blocked by Balance.
       </p>
       <button
         onClick={handleTemporaryUnblock}

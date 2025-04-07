@@ -109,7 +109,7 @@ const updateDNRRules = async () => {
 };
 
 const initialize = () => {
-  console.log('Initializing focus service worker');
+  console.log('Initializing balance service worker');
   updateDNRRules();
 
   // Start periodic cleanup of expired unblocks
@@ -125,12 +125,12 @@ chrome.storage.onChanged.addListener((changes) => {
 });
 
 chrome.runtime.onInstalled.addListener(() => {
-  console.log('Focus extension installed');
+  console.log('Balance extension installed');
   initialize();
 });
 
 chrome.runtime.onStartup.addListener(() => {
-  console.log('Focus extension started');
+  console.log('Balance extension started');
   initialize();
 });
 
