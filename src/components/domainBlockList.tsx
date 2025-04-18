@@ -16,7 +16,7 @@ const DomainBlockList: React.FC<DomainBlockListProps> = ({
 }) => {
   const [timeRemaining, setTimeRemaining] = useState<{ [key: string]: string }>({});
 
-  // Update time remaining every minute
+  // Update time remaining every 15 seconds
   useEffect(() => {
     const updateTimeRemaining = () => {
       const now = Date.now();
@@ -36,8 +36,8 @@ const DomainBlockList: React.FC<DomainBlockListProps> = ({
     // Update immediately
     updateTimeRemaining();
 
-    // Then update every minute
-    const interval = setInterval(updateTimeRemaining, 60000);
+    // Then update every 15 seconds
+    const interval = setInterval(updateTimeRemaining, 15000);
     return () => clearInterval(interval);
   }, [temporaryUnblocks]);
 
