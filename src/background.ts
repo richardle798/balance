@@ -2,7 +2,7 @@ import { UnblockInfo } from "./models/interfaces";
 
 // Constants for DNR rules
 const RULE_PRIORITY = 1;
-const CLEANUP_INTERVAL = 60000; // Check every minute
+const CLEANUP_INTERVAL = 15000; // Check every 15 seconds
 
 let isUpdatingRules = false;
 
