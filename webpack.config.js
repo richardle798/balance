@@ -7,7 +7,8 @@ module.exports = {
   entry: {
     popup: './src/popup.tsx',
     background: './src/background.ts',
-    block: './src/block.tsx'
+    block: './src/block.tsx',
+    tabListener: './src/tabListener.ts',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
