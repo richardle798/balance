@@ -64,9 +64,14 @@ const Popup: React.FC = () => {
     return normalized;
   };
 
-  const handleAddDomain = (domain: string) => {
+  const isDomainBlocked = (domain: string): boolean => {
     const normalizedDomain = normalizeDomain(domain);
-    if (!blockedDomains.includes(normalizedDomain)) {
+    return blockedDomains.includes(normalizedDomain);
+  };
+
+  const handleAddDomain = (domain: string) => {
+    if (!isDomainBlocked(domain)) {
+      const normalizedDomain = normalizeDomain(domain);
       const updatedDomains = [...blockedDomains, normalizedDomain];
       setBlockedDomains(updatedDomains);
       chrome.storage.sync.set({ blockedDomains: updatedDomains });
@@ -101,6 +106,7 @@ const Popup: React.FC = () => {
       <h1>Balance</h1>
       <AddDomain
         onAddDomain={handleAddDomain}
+        isDomainBlocked={isDomainBlocked}
       />
       <DomainBlockList
         blockedDomains={blockedDomains}

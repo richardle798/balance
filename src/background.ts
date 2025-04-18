@@ -2,7 +2,7 @@ import { UnblockInfo } from "./models/interfaces";
 
 // Constants for DNR rules
 const RULE_PRIORITY = 1;
-const CLEANUP_INTERVAL = 60000; // Check every minute
+const CLEANUP_INTERVAL = 15000; // Check every 15 seconds
 
 let isUpdatingRules = false;
 
@@ -66,7 +66,7 @@ const notifyTabs = async (domains: string[]) => {
       for (const tab of tabs) {
         if (tab.id) {
           try {
-            chrome.tabs.sendMessage(tab.id, {
+            await chrome.tabs.sendMessage(tab.id, {
               type: 'BLOCK_DOMAIN',
               domain: domain
             });

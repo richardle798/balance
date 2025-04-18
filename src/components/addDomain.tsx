@@ -1,11 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface AddDomainProps {
   onAddDomain: (domain: string) => void;
+  isDomainBlocked: (domain: string) => boolean;
 }
 
-const AddDomain: React.FC<AddDomainProps> = ({ onAddDomain }) => {
+const AddDomain: React.FC<AddDomainProps> = ({ onAddDomain, isDomainBlocked }) => {
   const [newDomain, setNewDomain] = useState('');
+  const [currentDomain, setCurrentDomain] = useState('');
+
+  useEffect(() => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs[0]?.url) {
+        const url = new URL(tabs[0].url);
+        setCurrentDomain(url.hostname);
+      }
+    });
+  }, []);
 
   const handleAddDomain = () => {
     const trimmedDomain = newDomain.trim();
@@ -16,12 +27,7 @@ const AddDomain: React.FC<AddDomainProps> = ({ onAddDomain }) => {
   };
 
   const handleAddCurrentDomain = () => {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs[0]?.url) {
-        const url = new URL(tabs[0].url);
-        onAddDomain(url.hostname);
-      }
-    });
+    onAddDomain(currentDomain);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -29,6 +35,8 @@ const AddDomain: React.FC<AddDomainProps> = ({ onAddDomain }) => {
       handleAddDomain();
     }
   };
+
+  const currentDomainBlocked = isDomainBlocked(currentDomain);
 
   return (
     <div className="add-domain-section">
@@ -43,9 +51,10 @@ const AddDomain: React.FC<AddDomainProps> = ({ onAddDomain }) => {
         <button onClick={handleAddDomain}>Add</button>
       </div>
       <div className="current-domain-section">
-        <button 
+        <button
           className="current-domain-button"
           onClick={handleAddCurrentDomain}
+          disabled={currentDomainBlocked}
         >
           Block Current Domain
         </button>
