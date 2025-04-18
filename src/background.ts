@@ -52,6 +52,39 @@ const cleanupExpiredUnblocks = async () => {
   }
 };
 
+// Function to notify tabs about blocked domains
+const notifyTabs = async (domains: string[]) => {
+  for (const domain of domains) {
+    try {
+      // Find all tabs with the blocked domain
+      const urlFilter = `*://www.${domain}/*`;
+      const query: chrome.tabs.QueryInfo = { url: urlFilter };
+      const tabs = await chrome.tabs.query(query);
+      console.log(`Found ${tabs.length} tabs for URL filter ${urlFilter}`);
+
+      // Send message to each tab
+      for (const tab of tabs) {
+        if (tab.id) {
+          try {
+            chrome.tabs.sendMessage(tab.id, {
+              type: 'BLOCK_DOMAIN',
+              domain: domain
+            });
+          }
+          catch (error) {
+            console.error(`Error sending message to tab ${tab.id}:`, error);
+          }
+        }
+        else {
+          console.error(`Tab was missing ID: ${tab}`);
+        }
+      }
+    } catch (error) {
+      console.error(`Error notifying tabs for domain ${domain}:`, error);
+    }
+  }
+};
+
 // Function to update DNR rules based on blocked domains and temporary unblocks
 const updateDNRRules = async () => {
   // If already updating, skip this call
@@ -97,6 +130,9 @@ const updateDNRRules = async () => {
         addRules: newRules,
         removeRuleIds: existingRuleIds
       });
+
+      // Notify tabs about the blocked domains
+      await notifyTabs(domainsToBlock);
     }
     else {
       console.log('No changes detected, skipping DNR rule update: ', domainsToBlock);
